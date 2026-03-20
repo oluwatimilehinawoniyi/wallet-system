@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: wallet
+  aop:
+    proxy-target-class: true
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:h2:mem:wallet;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE}
+    username: ${SPRING_DATASOURCE_USERNAME:sa}
+    password: ${SPRING_DATASOURCE_PASSWORD:}
+  jpa:
+    hibernate:
+      ddl-auto: create
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+  data:
+    redis:
+      host: ${SPRING_REDIS_HOST:localhost}
+      port: ${SPRING_REDIS_PORT:6379}
+      repositories:
+        enabled: false
+  docker:
+    compose:
+      enabled: true
+  threads:
+    virtual:
+      enabled: true
+
+app:
+  security:
+    jwt:
+      secret: ${JWT_SECRET:b5120974613c44f9b434bde5884fe776b11e9c1c01530d6c298de82fdc3ec587}
+      access-expiry-ms: ${JWT_ACCESS_EXPIRY_MS:900000}
+      refresh-expiry-ms: ${JWT_REFRESH_EXPIRY_MS:604800000}
+  events:
+    broker: ${APP_EVENTS_BROKER:spring}
+
+logging:
+  level:
+    com.wallet: INFO
